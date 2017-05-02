@@ -1,0 +1,28 @@
+Productor Consumidor Locks
+
+Contition	haySitio, hayElementos;
+Lock 		mutex;
+int 		NumElem = 0;
+
+sacar_buffer(){
+	mutex.lock();
+	while(NumElem == 0){
+		hayElementos.wait();
+	}
+	NumElem--;
+	-- Sacar del buffer;
+	haySitio.signal();
+	mutex.unlock();
+}
+
+meter_buffer(){
+	mutex.lock();
+	while(NumElem == Tam){
+		haySitio.wait();
+	}
+	NumElem++;
+	-- meterEnBuffer;
+	hayElementos.signal();
+	mutex.unlock();
+}
+
